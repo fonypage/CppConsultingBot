@@ -5,8 +5,8 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.11</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<version>2.7.6</version>
+		<relativePath/>
 	</parent>
 	<groupId>com.github.consultingbot</groupId>
 	<artifactId>cppconsultingbot</artifactId>
@@ -39,6 +39,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.telegram</groupId>
+			<artifactId>telegrambots-spring-boot-starter</artifactId>
+			<version>6.8.0</version>
 		</dependency>
 	</dependencies>
 
