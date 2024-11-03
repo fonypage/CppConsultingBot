@@ -1,47 +1,73 @@
 package com.github.consultingbot.cppconsultingbot.bot;
 
+import com.github.consultingbot.cppconsultingbot.command.CommandContainer;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import static com.github.consultingbot.cppconsultingbot.command.CommandName.NO;
+
+
 
 @Component
+@RequiredArgsConstructor
 public class ConsultingTelegramBot extends TelegramLongPollingBot {
-
+    public static String COMMAND_PREFIX="/";
     @Value("${bot.username}")
     private String username;
 
     @Value("${bot.token}")
     private String token;
 
-
+    private final CommandContainer commandContainer;
     @Override
     public void onUpdateReceived(Update update) {
-        if(update.hasMessage() && update.getMessage().hasText()) {
-            String message = update.getMessage().getText().trim();
-            String chatId = update.getMessage().getChatId().toString();
+        if(update.hasMessage()&&update.getMessage().hasText()){
+            String message=update.getMessage().getText().trim();
+            SendMessage response;
+            executeResponse(update, message);
+        }else if (update.hasCallbackQuery()) {
+            String call_data = update.getCallbackQuery().getData();
+            executeResponse(update,call_data);
+        }
+    }
 
-            SendMessage sm = new SendMessage();
-            sm.setChatId(chatId);
-            sm.setText(message);
+    private void executeResponse(Update update, String message) {
+        BotApiMethod<?> response;
+        if (message.startsWith(COMMAND_PREFIX)) {
+            String commandIdentifier = message.split(" ")[0].toLowerCase();
+            response = commandContainer.retrieveCommand(commandIdentifier).buildResponse(update);
+        } else {
+            response = commandContainer.retrieveCommand(NO.getCommandName()).buildResponse(update);
+        }
 
-            try {
-                execute(sm);
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
+        executeBotMethod(update, response);
+    }
+    private void executeBotMethod(Update update, BotApiMethod<?> botMethod) {
+        try {
+            if (botMethod instanceof SendMessage) {
+                execute((SendMessage) botMethod);
+            } else if (botMethod instanceof EditMessageText) {
+                execute((EditMessageText) botMethod);
             }
+        } catch (TelegramApiException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @Override
-    public String getBotUsername(){
+    public String getBotUsername() {
         return username;
     }
 
     @Override
-    public String getBotToken(){
+    public String getBotToken() {
         return token;
     }
+
 }
