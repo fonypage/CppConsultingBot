@@ -1,6 +1,6 @@
 package com.github.consultingbot.cppconsultingbot.command;
 
-import com.github.consultingbot.cppconsultingbot.keyboard.FirstKeyboard;
+import com.github.consultingbot.cppconsultingbot.keyboard.StartKeyboard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,7 +38,7 @@ public class StartCommandTest {
         when(message.hasText()).thenReturn(true);
         when(message.getChatId()).thenReturn(123456L);
 
-        InlineKeyboardMarkup markupInline = FirstKeyboard.GetStartKeyboard();
+        InlineKeyboardMarkup markupInline = StartKeyboard.GetStartKeyboard();
 
         SendMessage sendMessage = startCommand.buildResponse(update);
 
@@ -55,7 +55,7 @@ public class StartCommandTest {
         when(callbackQuery.getMessage()).thenReturn(message);
         when(message.getChatId()).thenReturn(123456L);
 
-        InlineKeyboardMarkup markupInline = FirstKeyboard.GetStartKeyboard();
+        InlineKeyboardMarkup markupInline = StartKeyboard.GetStartKeyboard();
 
         SendMessage sendMessage = startCommand.buildResponse(update);
 

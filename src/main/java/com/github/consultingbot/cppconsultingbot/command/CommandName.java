@@ -2,9 +2,10 @@ package com.github.consultingbot.cppconsultingbot.command;
 
 public enum CommandName {
     START("/start"),
-    STOP("/stop"),
     HELP("/help"),
-    NO("nocommand");
+    NO("nocommand"),
+    THEORY("/theory"),
+    BACK("/back");
 
     private final String commandName;
 

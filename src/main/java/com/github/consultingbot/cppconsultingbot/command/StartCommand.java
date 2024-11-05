@@ -1,7 +1,7 @@
 package com.github.consultingbot.cppconsultingbot.command;
 
-import com.github.consultingbot.cppconsultingbot.keyboard.FirstKeyboard;
-import com.github.consultingbot.cppconsultingbot.service.SendBotMessageService;
+import com.github.consultingbot.cppconsultingbot.keyboard.StartKeyboard;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -12,6 +12,7 @@ import static com.github.consultingbot.cppconsultingbot.command.CommandName.STAR
 
 @Component
 @RequiredArgsConstructor
+@Getter
 public class StartCommand extends AbstractCommand{
 
     public final static String START_MESSAGE = "Привет! Я CppConsultingBot. Я помогу тебе изучить такой язык программирования как C++. " +
@@ -28,7 +29,7 @@ public class StartCommand extends AbstractCommand{
         }else throw new IllegalArgumentException("Не содержит корректного сообщения.");
         sendMessage.setChatId(chatId.toString());
         sendMessage.setText(START_MESSAGE);
-        InlineKeyboardMarkup markupInline = FirstKeyboard.GetStartKeyboard();
+        InlineKeyboardMarkup markupInline = StartKeyboard.GetStartKeyboard();
         sendMessage .setReplyMarkup(markupInline);
         return sendMessage;
     }
