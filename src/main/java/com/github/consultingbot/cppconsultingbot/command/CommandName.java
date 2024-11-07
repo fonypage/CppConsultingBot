@@ -5,6 +5,7 @@ public enum CommandName {
     HELP("/help"),
     NO("nocommand"),
     THEORY("/theory"),
+    PRACTICE("/practice"),
     BACK("/back");
 
     private final String commandName;
