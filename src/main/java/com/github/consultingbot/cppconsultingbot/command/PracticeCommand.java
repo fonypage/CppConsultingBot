@@ -1,7 +1,9 @@
 package com.github.consultingbot.cppconsultingbot.command;
 
 import com.github.consultingbot.cppconsultingbot.keyboard.BackButton;
+import com.github.consultingbot.cppconsultingbot.keyboard.PracticeKeyboard;
 import com.github.consultingbot.cppconsultingbot.keyboard.TheoryKeyboard;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -13,12 +15,13 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.github.consultingbot.cppconsultingbot.command.CommandName.THEORY;
+import static com.github.consultingbot.cppconsultingbot.command.CommandName.PRACTICE;
 
 @Component
 @RequiredArgsConstructor
-public class TheoryCommand extends AbstractCommand{
-    public final String THEORY_MESSAGE = "Выберите тему для изучения:";
+@Getter
+public class PracticeCommand extends AbstractCommand{
+    public final String PRACTICE_MESSAGE = "Выберите тему задачи:";
 
     @Override
     public BotApiMethod<?> buildResponse(Update update) {
@@ -30,9 +33,9 @@ public class TheoryCommand extends AbstractCommand{
             chatId = update.getCallbackQuery().getMessage().getChatId();
         }else throw new IllegalArgumentException("Не содержит корректного сообщения");
         sendMessage.setChatId(chatId.toString());
-        sendMessage.setText(THEORY_MESSAGE);
+        sendMessage.setText(PRACTICE_MESSAGE);
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
-        keyboard.addAll(TheoryKeyboard.GetTheoryKeyboard());
+        keyboard.addAll(PracticeKeyboard.GetTheoryKeyboard());
         keyboard.add(BackButton.GetBackOnStartButton());
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
         markup.setKeyboard(keyboard);
@@ -42,6 +45,6 @@ public class TheoryCommand extends AbstractCommand{
 
     @Override
     public String getCommandIdentifier() {
-        return THEORY.getCommandName();
+        return PRACTICE.getCommandName();
     }
 }
