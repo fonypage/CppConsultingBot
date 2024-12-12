@@ -1,11 +1,8 @@
 package com.github.consultingbot.cppconsultingbot.command;
 
-import com.github.consultingbot.cppconsultingbot.keyboard.BackButton;
 import com.github.consultingbot.cppconsultingbot.keyboard.TheoryKeyboard;
-import com.github.consultingbot.cppconsultingbot.repository.entity.TheoryTopic;
 import com.github.consultingbot.cppconsultingbot.service.TheoryTopicService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -14,9 +11,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import java.util.List;
-import java.util.Optional;
-
-import static com.github.consultingbot.cppconsultingbot.command.CommandName.THEORY;
 
 @Component
 @RequiredArgsConstructor

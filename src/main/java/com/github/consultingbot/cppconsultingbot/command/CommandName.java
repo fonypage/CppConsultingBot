@@ -6,7 +6,8 @@ public enum CommandName {
     NO("nocommand"),
     THEORY("/theory"),
     PRACTICE("/practice"),
-    BACK("/back");
+    BACK("/back"),
+    SENDDOC("/send_doc");
 
     private final String commandName;
 

@@ -2,6 +2,7 @@ package com.github.consultingbot.cppconsultingbot.command;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -14,7 +15,7 @@ public class HelpCommand extends AbstractCommand{
             + "%s - Получить доступ к теоретическим материалам по C++.\n"
             + "%s - Получить доступ к практическим заданиям.\n\n","/theory","/practice");
     @Override
-    public SendMessage buildResponse(Update update) {
+    public BotApiMethod<?> buildResponse(Update update) {
         return new SendMessage(update.getMessage().getChatId().toString(),HELP_MESSAGE);
     }
 

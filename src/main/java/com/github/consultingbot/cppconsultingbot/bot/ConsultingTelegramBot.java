@@ -6,18 +6,20 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
 import static com.github.consultingbot.cppconsultingbot.command.CommandName.NO;
-
-
 
 @Component
 @RequiredArgsConstructor
 public class ConsultingTelegramBot extends TelegramLongPollingBot {
-    public static String COMMAND_PREFIX="/";
+
+    public static final String COMMAND_PREFIX = "/";
+
     @Value("${bot.username}")
     private String username;
 
@@ -25,20 +27,21 @@ public class ConsultingTelegramBot extends TelegramLongPollingBot {
     private String token;
 
     private final CommandContainer commandContainer;
+
     @Override
     public void onUpdateReceived(Update update) {
-        if(update.hasMessage()&&update.getMessage().hasText()){
-            String message=update.getMessage().getText().trim();
-            SendMessage response;
-            executeResponse(update, message);
-        }else if (update.hasCallbackQuery()) {
-            String call_data = update.getCallbackQuery().getData();
-            executeResponse(update,call_data);
-        }
+            if (update.hasMessage() && update.getMessage().hasText()) {
+                String message = update.getMessage().getText().trim();
+                executeResponse(update, message);
+            } else if (update.hasCallbackQuery()) {
+                String callData = update.getCallbackQuery().getData();
+                executeResponse(update, callData);
+            }
     }
 
     private void executeResponse(Update update, String message) {
         BotApiMethod<?> response;
+
         if (message.startsWith(COMMAND_PREFIX)) {
             String commandIdentifier = message.split(" ")[0].toLowerCase();
             response = commandContainer.retrieveCommand(commandIdentifier).buildResponse(update);
@@ -46,9 +49,10 @@ public class ConsultingTelegramBot extends TelegramLongPollingBot {
             response = commandContainer.retrieveCommand(NO.getCommandName()).buildResponse(update);
         }
 
-        executeBotMethod(update, response);
+        executeBotMethod(response);
     }
-    private void executeBotMethod(Update update, BotApiMethod<?> botMethod) {
+
+    private void executeBotMethod(PartialBotApiMethod<?> botMethod) {
         try {
             if (botMethod instanceof SendMessage) {
                 execute((SendMessage) botMethod);
@@ -56,7 +60,7 @@ public class ConsultingTelegramBot extends TelegramLongPollingBot {
                 execute((EditMessageText) botMethod);
             }
         } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Ошибка при выполнении метода Telegram API", e);
         }
     }
 
@@ -69,5 +73,5 @@ public class ConsultingTelegramBot extends TelegramLongPollingBot {
     public String getBotToken() {
         return token;
     }
-
 }
+

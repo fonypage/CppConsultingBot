@@ -1,10 +1,13 @@
 package com.github.consultingbot.cppconsultingbot.service;
 
 import com.github.consultingbot.cppconsultingbot.bot.ConsultingTelegramBot;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+@Service
 public class SendBotMessageServiceImpl implements SendBotMessageService{
 
     private final ConsultingTelegramBot consultingBot;

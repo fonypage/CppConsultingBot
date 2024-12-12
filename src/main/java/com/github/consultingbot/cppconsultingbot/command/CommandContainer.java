@@ -1,16 +1,14 @@
 package com.github.consultingbot.cppconsultingbot.command;
 
-import com.github.consultingbot.cppconsultingbot.service.SendBotMessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.github.consultingbot.cppconsultingbot.command.CommandName.*;
-
-@RequiredArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class CommandContainer {
+
     private final List<Command> commands;
     private final UnknownCommand unknownCommand;
 

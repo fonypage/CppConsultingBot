@@ -2,6 +2,7 @@ package com.github.consultingbot.cppconsultingbot.command;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 @Component
@@ -10,7 +11,7 @@ public class UnknownCommand extends AbstractCommand{
 
     public static final String UNKNOWN_MESSAGE="Не понимаю вас, напишите /help, чтобы узнать список поддерживащихся команд.";
     @Override
-    public SendMessage buildResponse(Update update) {
+    public BotApiMethod<?> buildResponse(Update update) {
         SendMessage sendMessage = new SendMessage();
 
         // Получение chatId

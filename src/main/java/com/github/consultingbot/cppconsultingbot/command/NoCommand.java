@@ -2,6 +2,7 @@ package com.github.consultingbot.cppconsultingbot.command;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -11,7 +12,7 @@ public class NoCommand extends AbstractCommand{
     public static final String NO_MESSAGE="Я поддерживаю команды, начинающиеся со слеша(/).\n"
             + "Чтобы посмотреть список команд введите /help";
     @Override
-    public SendMessage buildResponse(Update update) {
+    public BotApiMethod<?> buildResponse(Update update) {
         return new SendMessage(update.getMessage().getChatId().toString(),NO_MESSAGE);
     }
 
